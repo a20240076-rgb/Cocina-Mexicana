@@ -79,23 +79,33 @@ app.put('/modificar-pedido/:id', async (req, res) => {
 
 app.delete("/eliminar-pedido/:id", async (req, res) => {
     try {
+
         const id = req.params.id;
 
-        const query = `
-            DELETE FROM pedidos
-            WHERE id = $1
-        `;
+        const result = await pool.query(
+            'DELETE FROM pedidos WHERE id = $1',
+            [id]
+        );
 
-        await pool.query(query, [id]);
+        if (result.rowCount === 0) {
+            return res.status(404).json({
+                error: "Pedido no encontrado"
+            });
+        }
 
-        res.json({ mensaje: "Pedido eliminado correctamente" });
+        res.json({
+            mensaje: "Pedido eliminado correctamente"
+        });
 
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Error al eliminar el pedido" });
+
+        console.error("Error real al eliminar:", err);
+
+        res.status(500).json({
+            error: "Error al eliminar el pedido"
+        });
     }
 });
-
 
 const PORT = process.env.PORT || 3000;
 
