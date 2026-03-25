@@ -99,7 +99,7 @@ function formatFechaDisplay(fecha) {
 // =======================
 function abrirModalEditar(pedido) {
 
-    document.getElementById("editId").value = pedido.ID;
+    document.getElementById("editId").value = pedido.id;
     document.getElementById("editCliente").value = pedido.cliente || "";
     document.getElementById("editFecha").value = formatFechaDisplay(pedido.fecha);
     document.getElementById("editHora").value = pedido.hora || "";
@@ -125,7 +125,7 @@ document.addEventListener("click", (e) => {
 
         const id = e.target.dataset.id;
 
-        const pedido = currentPedidos.find(p => String(p.ID) === String(id));
+        const pedido = currentPedidos.find(p => String(p.id) === String(id));
 
         if (pedido) abrirModalEditar(pedido);
     }
