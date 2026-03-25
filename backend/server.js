@@ -60,7 +60,7 @@ app.put('/modificar-pedido/:id', async (req, res) => {
         const query = `
             UPDATE pedidos
             SET cliente = $1, orden = $2, fecha = $3, hora = $4, direccion = $5
-            WHERE "id" = $6
+            WHERE id = $6
         `;
 
         await pool.query(query, [nombre, orden, fecha, hora, direccion, id]);
@@ -83,7 +83,7 @@ app.delete("/eliminar-pedido/:id", async (req, res) => {
 
         const query = `
             DELETE FROM pedidos
-            WHERE "id" = $1
+            WHERE id = $1
         `;
 
         await pool.query(query, [id]);
@@ -96,20 +96,6 @@ app.delete("/eliminar-pedido/:id", async (req, res) => {
     }
 });
 
-
-
-// =========================
-//   RUTA DE PRUEBA
-// =========================
-app.get('/api/pedidos', async (req, res) => {
-    try {
-        const result = await pool.query('SELECT * FROM pedidos');
-        res.json(result.rows);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error en la consulta');
-    }
-});
 
 const PORT = process.env.PORT || 3000;
 
