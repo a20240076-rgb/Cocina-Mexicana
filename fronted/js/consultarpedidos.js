@@ -161,7 +161,7 @@ document.getElementById("formEditar").addEventListener("submit", async (e) => {
             orden
         };
 
-        const resp = await fetch(`https://cocina-mexicana.onrender.com/modificar-pedido/${ID}`, {
+        const resp = await fetch(`https://cocina-mexicana.onrender.com/modificar-pedido/${id}`, {
 
             method: "PUT",
 
