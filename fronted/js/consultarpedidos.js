@@ -1,4 +1,4 @@
-// Guardamos los pedidos actuales para referencia
+// Guardamos los pedidos actuales
 let currentPedidos = [];
 
 // =======================
@@ -61,9 +61,7 @@ async function mostrarPedidos() {
 //      HELPERS
 // =======================
 function escapeHtml(text) {
-
     if (text == null) return "";
-
     return String(text)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -73,13 +71,10 @@ function escapeHtml(text) {
 }
 
 function formatFechaDisplay(fecha) {
-
     if (!fecha) return "";
 
     try {
-
         const d = new Date(fecha);
-
         if (isNaN(d)) return escapeHtml(fecha);
 
         const yyyy = d.getFullYear();
@@ -87,9 +82,7 @@ function formatFechaDisplay(fecha) {
         const dd = String(d.getDate()).padStart(2, "0");
 
         return `${yyyy}-${mm}-${dd}`;
-
     } catch {
-
         return escapeHtml(fecha);
     }
 }
@@ -146,7 +139,6 @@ document.getElementById("formEditar").addEventListener("submit", async (e) => {
     const orden = document.getElementById("editOrden").value.trim();
 
     if (!cliente || !fecha || !hora || !direccion || !orden) {
-
         alert("Por favor completa todos los campos.");
         return;
     }
@@ -161,31 +153,27 @@ document.getElementById("formEditar").addEventListener("submit", async (e) => {
             orden
         };
 
-        const resp = await fetch("https://cocina-mexicana.onrender.com/modificar-pedido/${id}", {
-
+        const resp = await fetch(`https://cocina-mexicana.onrender.com/modificar-pedido/${ID}`, {
             method: "PUT",
-
             headers: {
                 "Content-Type": "application/json"
             },
-
             body: JSON.stringify(payload)
-        })
+        });
 
         if (!resp.ok) {
-
             const txt = await resp.text();
             throw new Error(txt || "Error en la actualización");
         }
 
-        cerrarModal();
+        alert("Pedido actualizado ✔");
 
+        cerrarModal();
         await mostrarPedidos();
 
     } catch (err) {
 
         console.error("Error al modificar pedido:", err);
-
         alert("No se pudo modificar el pedido.");
     }
 });
@@ -194,9 +182,7 @@ document.getElementById("formEditar").addEventListener("submit", async (e) => {
 //      CANCELAR EDITAR
 // ==========================
 document.getElementById("btnCancelar").addEventListener("click", (e) => {
-
     e.preventDefault();
-
     cerrarModal();
 });
 
@@ -204,7 +190,6 @@ document.getElementById("btnCancelar").addEventListener("click", (e) => {
 //   CLICK FUERA DEL MODAL
 // ==========================
 document.getElementById("modalEditar").addEventListener("click", (e) => {
-
     if (e.target.id === "modalEditar") cerrarModal();
 });
 
@@ -222,22 +207,21 @@ document.addEventListener("click", async (e) => {
         try {
 
             const resp = await fetch(`https://cocina-mexicana.onrender.com/eliminar-pedido/${id}`, {
-
                 method: "DELETE"
-            })
+            });
 
             if (!resp.ok) {
-
                 const msg = await resp.text();
                 throw new Error(msg);
             }
+
+            alert("Pedido eliminado ✔");
 
             await mostrarPedidos();
 
         } catch (err) {
 
             console.error("Error al eliminar:", err);
-
             alert("Ocurrió un error al eliminar el pedido.");
         }
     }
