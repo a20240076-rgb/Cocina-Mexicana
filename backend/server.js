@@ -60,7 +60,7 @@ app.put('/modificar-pedido/:id', async (req, res) => {
         const query = `
             UPDATE pedidos
             SET cliente = $1, orden = $2, fecha = $3, hora = $4, direccion = $5
-            WHERE "ID" = $6
+            WHERE "id" = $6
         `;
 
         await pool.query(query, [nombre, orden, fecha, hora, direccion, id]);
@@ -83,7 +83,7 @@ app.delete("/eliminar-pedido/:id", async (req, res) => {
 
         const query = `
             DELETE FROM pedidos
-            WHERE "ID" = $1
+            WHERE "id" = $1
         `;
 
         await pool.query(query, [id]);
