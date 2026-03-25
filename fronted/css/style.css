@@ -1,0 +1,245 @@
+body {
+    font-family: Arial;
+    margin: 0;
+    background: #f2f2f2;
+}
+
+header {
+    background: #e63946;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav li {
+    display: inline-block;
+    margin: 10px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+section {
+    background: white;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 8px;
+}
+
+input, textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+}
+
+button {
+    background: #1d3557;
+    color: white;
+    padding: 10px;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+}
+
+footer {
+    text-align: center;
+    background: #333;
+    color: rgb(132, 169, 128);
+    padding: 15px;
+    margin-top: 30px;
+}
+
+#menuRestaurante {
+    background: #99937e;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+#menuRestaurante h2 {
+    text-align: center;
+    color: #290205;
+    margin-bottom: 20px;
+}
+
+.categoria {
+    margin-bottom: 20px;
+}
+
+.categoria h3 {
+    color: #1d3557;
+    border-bottom: 2px solid #e63946;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.categoria ul {
+    list-style: none;
+    padding: 0;
+}
+
+.categoria li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed #eda3a3;
+    font-size: 16px;
+}
+
+.categoria li span {
+    font-weight: bold;
+    color: #1d3557;
+}
+
+.portada {
+    width: 100%;
+    height: 250px;  /* Altura de la imagen */
+    background-image: url("img/image.png"); /* ← Cambia por tu imagen */
+    background-size: cover;   /* Ajusta bien la imagen */
+    background-position: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Texto encima de la imagen */
+.portada h1 {
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    text-shadow: 3px 3px 8px black; 
+    background: rgba(0,0,0,0.4); /* Fondo semitransparente */
+    padding: 10px 25px;
+    border-radius: 10px;
+}
+
+
+
+/*===================
+//tabla de pedidos
+*/
+
+.tabla-pedidos {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.tabla-pedidos th,
+.tabla-pedidos td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.tabla-pedidos th {
+    background-color: #e76f51;
+    color: white;
+    font-weight: bold;
+}
+
+.tabla-pedidos tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.tabla-pedidos tr:hover {
+    background-color: #faedcd;
+    transition: 0.2s;
+}
+
+/* Modal básico */
+.modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-contenido {
+  background: #fff;
+  padding: 18px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 520px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+.modal-contenido input,
+.modal-contenido textarea,
+.modal-contenido label {
+  display: block;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.modal-contenido input,
+.modal-contenido textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal-contenido button {
+  padding: 8px 12px;
+  margin-right: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-contenido button[type="submit"] {
+  background-color: #2a9d8f;
+  color: #fff;
+}
+
+.modal-contenido button#btnCancelar {
+  background-color: #e76f51;
+  color: #fff;
+}
+
+/* CONTENEDOR */
+.menu-botones {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding: 0;
+    align-items: center;
+    justify-content: center; /* 👈 CENTRAR HORIZONTALMENTE */
+}
+
+/* BOTONES */
+.menu-botones li a {
+    text-decoration: none;
+    padding: 14px 32px;
+    color: #0d6efd;
+    font-weight: 600;
+    border: 2px solid #0d6efd;
+    border-radius: 12px;
+    background: #ffffff;
+    transition: all 0.35s ease;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.15);
+}
+
+/* EFECTO HOVER */
+.menu-botones li a:hover {
+    background: #0d6efd;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0, 123, 255, 0.35);
+}

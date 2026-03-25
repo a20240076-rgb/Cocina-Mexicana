@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pedidos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <h1>pedidos</h1>
+    <!-- FORMULARIO PARA HACER PEDIDO -->
+<section id ="hacerPedido">
+    <h2>Hacer un Pedido</h2>
+
+    <label>Nombre del cliente</label>
+    <input type="text" id="nombreCliente">
+    
+    <label>Orden de comida</label>
+    <textarea id="ordenComida" placeholder="Ejemplo: 3 tacos de pastor, 1 agua de horchata"></textarea>
+
+
+    <label>Fecha</label>
+    <input type="date" id="fechaPedido">
+
+    <label>Hora</label>
+    <input type="time" id="horaPedido">
+
+    <label>Dirección</label>
+    <textarea id="direccionCliente"></textarea>
+
+   <div class="contenedor-botones">
+    <button id="btnGuardar">Guardar Pedido</button>
+    <a href="index.html" class="btn-cancelar">Cancelar</a>
+    </div>
+
+
+</section>
+<script src="js/generarpedidos.js"></script>
+</body>
+</html>

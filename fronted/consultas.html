@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <h1>Consultas de Pedidos</h1>
+
+  <section id="consultarPedidos">
+  <h2>Pedidos Registrados</h2>
+
+  <table class="tabla-pedidos">
+      <thead>
+          <tr>
+              <th>#</th>
+              <th>Cliente</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Dirección</th>
+              <th>Orden</th>
+              <th>Acciones</th>
+          </tr>
+      </thead>
+      <tbody id="listaPedidos"></tbody>
+  </table>
+</section>
+
+<!-- Modal / formulario de edición -->
+<div id="modalEditar" class="modal" style="display:none;">
+  <div class="modal-contenido">
+    <h3>Editar Pedido</h3>
+    <form id="formEditar">
+      <input type="hidden" id="editId" />
+      <label>Cliente</label>
+      <input type="text" id="editCliente" required />
+      <label>Fecha</label>
+      <input type="date" id="editFecha" required />
+      <label>Hora</label>
+      <input type="time" id="editHora" required />
+      <label>Dirección</label>
+      <input type="text" id="editDireccion" required />
+      <label>Orden</label>
+      <textarea id="editOrden" rows="3" required></textarea>
+
+      <div style="margin-top:10px;">
+        <button type="submit">Guardar</button>
+        <button type="button" id="btnCancelar">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+    <footer>
+        <p>Dirección del local: Calle Principal #123</p>
+        <p>Correo: restaurantelacocinamexicana@gmail.com</p>
+        <p>Quejas y sugerencias: 555-123-4567</p>
+    </footer>
+
+    <script src="js/consultarpedidos.js"></script>
+
+</body>
+</html>
