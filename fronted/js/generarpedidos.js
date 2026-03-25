@@ -1,9 +1,10 @@
-document.getElementById("btnGuardar").addEventListener("click", () => {
-    const nombre = document.getElementById("nombreCliente").value;
+document.getElementById("btnGuardar").addEventListener("click", async () => {
+
+    const nombre = document.getElementById("nombreCliente").value.trim();
     const fecha = document.getElementById("fechaPedido").value;
     const hora = document.getElementById("horaPedido").value;
-    const direccion = document.getElementById("direccionCliente").value;
-    const orden = document.getElementById("ordenComida").value;
+    const direccion = document.getElementById("direccionCliente").value.trim();
+    const orden = document.getElementById("ordenComida").value.trim();
 
     if (!nombre || !fecha || !hora || !direccion || !orden) {
         alert("Todos los campos son obligatorios");
@@ -12,37 +13,57 @@ document.getElementById("btnGuardar").addEventListener("click", () => {
 
     const pedido = { nombre, fecha, hora, direccion, orden };
 
-    // ------------------------------
-    // 1. Guardar en localStorage
-    // ------------------------------
-    let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
-    pedidos.push(pedido);
-    localStorage.setItem("pedidos", JSON.stringify(pedidos));
+    try {
 
-    // ------------------------------
-    // 2. Guardar en la base de datos
-    // ------------------------------
-    fetch("https://cocina-mexicana.onrender.com/guardar-pedido", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(pedido)
-    })
-    .then(res => res.json())
-    .then(data => {
+        // ------------------------------
+        // Guardar en base de datos
+        // ------------------------------
+        const resp = await fetch("https://cocina-mexicana.onrender.com/guardar-pedido", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(pedido)
+        });
+
+        if (!resp.ok) {
+            throw new Error("Error en la respuesta del servidor");
+        }
+
+        const data = await resp.json();
+
         console.log("Guardado en BD:", data);
-        alert("Pedido guardado ✔");
-    })
-    .catch(err => {
-        console.error("Error:", err);
-        alert("Error al guardar en la base de datos");
-    });
 
-    // ------------------------------
-    // 3. Limpiar campos
-    // ------------------------------
-    document.getElementById("nombreCliente").value = "";
-    document.getElementById("fechaPedido").value = "";
-    document.getElementById("horaPedido").value = "";
-    document.getElementById("direccionCliente").value = "";
-    document.getElementById("ordenComida").value = "";
+        // ------------------------------
+        // Guardar en localStorage
+        // ------------------------------
+        let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+        pedidos.push(pedido);
+        localStorage.setItem("pedidos", JSON.stringify(pedidos));
+
+        alert("Pedido guardado correctamente ✔");
+
+        // ------------------------------
+        // Limpiar campos
+        // ------------------------------
+        document.getElementById("nombreCliente").value = "";
+        document.getElementById("fechaPedido").value = "";
+        document.getElementById("horaPedido").value = "";
+        document.getElementById("direccionCliente").value = "";
+        document.getElementById("ordenComida").value = "";
+
+        // ------------------------------
+        // Actualizar tabla
+        // ------------------------------
+        if (typeof mostrarPedidos === "function") {
+            await mostrarPedidos();
+        }
+
+    } catch (err) {
+
+        console.error("Error:", err);
+
+        alert("No se pudo guardar el pedido. Intenta nuevamente.");
+    }
+
 });

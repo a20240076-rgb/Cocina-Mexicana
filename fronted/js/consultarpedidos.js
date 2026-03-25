@@ -5,24 +5,31 @@ let currentPedidos = [];
 //      MOSTRAR
 // =======================
 async function mostrarPedidos() {
+
     const contenedor = document.getElementById("listaPedidos");
 
     try {
+
         const respuesta = await fetch("https://cocina-mexicana.onrender.com/pedidos");
+
+        if (!respuesta.ok) {
+            throw new Error("Error en la respuesta del servidor");
+        }
+
         const pedidos = await respuesta.json();
         currentPedidos = pedidos || [];
 
-        if (!currentPedidos || currentPedidos.length === 0) {
+        if (currentPedidos.length === 0) {
             contenedor.innerHTML = `
                 <tr><td colspan="7">No hay pedidos registrados.</td></tr>
             `;
             return;
         }
 
-        contenedor.innerHTML = "";
+        let html = "";
 
         currentPedidos.forEach((p, i) => {
-            contenedor.innerHTML += `
+            html += `
                 <tr>
                     <td>${i + 1}</td>
                     <td>${escapeHtml(p.cliente)}</td>
@@ -30,18 +37,23 @@ async function mostrarPedidos() {
                     <td>${escapeHtml(p.hora)}</td>
                     <td>${escapeHtml(p.direccion)}</td>
                     <td>${escapeHtml(p.orden)}</td>
-                   <td>
-                      <button class="btn-edit" data-id="${p.ID}">Editar</button>
-                     <button class="btn-delete" data-id="${p.ID}">Eliminar</button>
+                    <td>
+                        <button class="btn-edit" data-id="${p.ID}">Editar</button>
+                        <button class="btn-delete" data-id="${p.ID}">Eliminar</button>
                     </td>
-
                 </tr>
             `;
         });
 
+        contenedor.innerHTML = html;
+
     } catch (error) {
+
         console.error("Error al cargar pedidos:", error);
-        contenedor.innerHTML = `<tr><td colspan="7">Error al cargar datos del servidor.</td></tr>`;
+
+        contenedor.innerHTML = `
+            <tr><td colspan="7">Error al cargar datos del servidor.</td></tr>
+        `;
     }
 }
 
@@ -49,7 +61,9 @@ async function mostrarPedidos() {
 //      HELPERS
 // =======================
 function escapeHtml(text) {
+
     if (text == null) return "";
+
     return String(text)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -59,9 +73,13 @@ function escapeHtml(text) {
 }
 
 function formatFechaDisplay(fecha) {
+
     if (!fecha) return "";
+
     try {
+
         const d = new Date(fecha);
+
         if (isNaN(d)) return escapeHtml(fecha);
 
         const yyyy = d.getFullYear();
@@ -69,7 +87,9 @@ function formatFechaDisplay(fecha) {
         const dd = String(d.getDate()).padStart(2, "0");
 
         return `${yyyy}-${mm}-${dd}`;
+
     } catch {
+
         return escapeHtml(fecha);
     }
 }
@@ -78,6 +98,7 @@ function formatFechaDisplay(fecha) {
 //   ABRIR MODAL EDITAR
 // =======================
 function abrirModalEditar(pedido) {
+
     document.getElementById("editId").value = pedido.ID;
     document.getElementById("editCliente").value = pedido.cliente || "";
     document.getElementById("editFecha").value = formatFechaDisplay(pedido.fecha);
@@ -99,15 +120,11 @@ function cerrarModal() {
 //   CLICK EN BOTONES EDITAR
 // ================================
 document.addEventListener("click", (e) => {
+
     if (e.target.matches(".btn-edit")) {
 
         const id = e.target.dataset.id;
 
-        // ❌ ERROR 1:
-        // const pedido = currentPedidos.find(p => String(p.id) === String(id));
-        // Esto era incorrecto porque el backend envía la columna "ID" en mayúsculas.
-
-        // ✅ CORREGIDO:
         const pedido = currentPedidos.find(p => String(p.ID) === String(id));
 
         if (pedido) abrirModalEditar(pedido);
@@ -118,6 +135,7 @@ document.addEventListener("click", (e) => {
 //       SUBMIT EDITAR
 // ==========================
 document.getElementById("formEditar").addEventListener("submit", async (e) => {
+
     e.preventDefault();
 
     const ID = document.getElementById("editId").value;
@@ -128,11 +146,13 @@ document.getElementById("formEditar").addEventListener("submit", async (e) => {
     const orden = document.getElementById("editOrden").value.trim();
 
     if (!cliente || !fecha || !hora || !direccion || !orden) {
+
         alert("Por favor completa todos los campos.");
         return;
     }
 
     try {
+
         const payload = {
             nombre: cliente,
             fecha,
@@ -141,30 +161,32 @@ document.getElementById("formEditar").addEventListener("submit", async (e) => {
             orden
         };
 
-        // ❌ ERROR 2:
-        // fetch(`http://localhost:3000/modificar-pedido/${id}`)
-        // "id" no existe. La variable correcta es "ID".
-
-        // ✅ CORREGIDO:
         const resp = await fetch(`https://cocina-mexicana.onrender.com/modificar-pedido/${ID}`, {
+
             method: "PUT",
+
             headers: {
                 "Content-Type": "application/json"
             },
+
             body: JSON.stringify(payload)
         });
 
         if (!resp.ok) {
+
             const txt = await resp.text();
             throw new Error(txt || "Error en la actualización");
         }
 
         cerrarModal();
+
         await mostrarPedidos();
 
     } catch (err) {
+
         console.error("Error al modificar pedido:", err);
-        alert("No se pudo modificar el pedido. Revisa la consola para más detalles.");
+
+        alert("No se pudo modificar el pedido.");
     }
 });
 
@@ -172,7 +194,9 @@ document.getElementById("formEditar").addEventListener("submit", async (e) => {
 //      CANCELAR EDITAR
 // ==========================
 document.getElementById("btnCancelar").addEventListener("click", (e) => {
+
     e.preventDefault();
+
     cerrarModal();
 });
 
@@ -180,41 +204,46 @@ document.getElementById("btnCancelar").addEventListener("click", (e) => {
 //   CLICK FUERA DEL MODAL
 // ==========================
 document.getElementById("modalEditar").addEventListener("click", (e) => {
+
     if (e.target.id === "modalEditar") cerrarModal();
 });
 
-// Inicializar
-mostrarPedidos();
-
-//====================
-// ELIMINAR
-//====================
-
-// ---- Escuchar clicks en ELIMINAR ----
+// ==========================
+//        ELIMINAR
+// ==========================
 document.addEventListener("click", async (e) => {
+
     if (e.target.matches(".btn-delete")) {
+
         const id = e.target.dataset.id;
 
-        if (!confirm("¿Seguro que deseas eliminar este pedido?")) {
-            return;
-        }
+        if (!confirm("¿Seguro que deseas eliminar este pedido?")) return;
 
         try {
+
             const resp = await fetch(`https://cocina-mexicana.onrender.com/eliminar-pedido/${id}`, {
+
                 method: "DELETE"
             });
 
             if (!resp.ok) {
+
                 const msg = await resp.text();
                 throw new Error(msg);
             }
 
-            // Refrescar tabla
-            mostrarPedidos();
+            await mostrarPedidos();
 
         } catch (err) {
+
             console.error("Error al eliminar:", err);
+
             alert("Ocurrió un error al eliminar el pedido.");
         }
     }
 });
+
+// =======================
+//      INICIAR
+// =======================
+mostrarPedidos();
