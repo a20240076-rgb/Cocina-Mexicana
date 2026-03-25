@@ -170,7 +170,7 @@ document.getElementById("formEditar").addEventListener("submit", async (e) => {
             },
 
             body: JSON.stringify(payload)
-        });
+        })
 
         if (!resp.ok) {
 
@@ -221,10 +221,10 @@ document.addEventListener("click", async (e) => {
 
         try {
 
-            const resp = await fetch("https://cocina-mexicana.onrender.com/eliminar-pedido/${id}", {
+            const resp = await fetch(`https://cocina-mexicana.onrender.com/eliminar-pedido/${id}`, {
 
                 method: "DELETE"
-            });
+            })
 
             if (!resp.ok) {
 
