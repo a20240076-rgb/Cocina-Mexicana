@@ -83,7 +83,8 @@ app.delete("/eliminar-pedido/:id", async (req, res) => {
         const id = req.params.id;
 
         const result = await pool.query(
-            'DELETE FROM pedidos WHERE id = $1'
+            'DELETE FROM pedidos WHERE id = $1',
+            [id] // 👈 ESTO FALTABA
         );
 
         if (result.rowCount === 0) {
@@ -105,7 +106,6 @@ app.delete("/eliminar-pedido/:id", async (req, res) => {
         });
     }
 });
-
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
