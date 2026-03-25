@@ -38,8 +38,8 @@ async function mostrarPedidos() {
                     <td>${escapeHtml(p.direccion)}</td>
                     <td>${escapeHtml(p.orden)}</td>
                     <td>
-                        <button class="btn-edit" data-id="${p.ID}">Editar</button>
-                        <button class="btn-delete" data-id="${p.ID}">Eliminar</button>
+                        <button class="btn-edit" data-id="${p.id}">Editar</button>
+                        <button class="btn-delete" data-id="${p.id}">Eliminar</button>
                     </td>
                 </tr>
             `;
