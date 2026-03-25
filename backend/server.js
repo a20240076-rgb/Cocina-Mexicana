@@ -40,7 +40,7 @@ app.post('/guardar-pedido', async (req, res) => {
 
 app.get('/pedidos', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM pedidos ORDER BY "ID" ASC');
+        const result = await pool.query('SELECT * FROM pedidos');
         res.json(result.rows);
     } catch (err) {
         console.error(err);
