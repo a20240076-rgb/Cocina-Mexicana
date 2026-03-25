@@ -21,7 +21,7 @@ app.post('/guardar-pedido', async (req, res) => {
         const { nombre, fecha, hora, direccion, orden } = req.body;
 
         const query = `
-            INSERT INTO ordenes (cliente, orden, fecha, hora, direccion)
+            INSERT INTO pedidos (cliente, orden, fecha, hora, direccion)
             VALUES ($1, $2, $3, $4, $5)
         `;
 
@@ -40,7 +40,7 @@ app.post('/guardar-pedido', async (req, res) => {
 
 app.get('/pedidos', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM ordenes ORDER BY "ID" ASC');
+        const result = await pool.query('SELECT * FROM pedidos ORDER BY "ID" ASC');
         res.json(result.rows);
     } catch (err) {
         console.error(err);
@@ -58,7 +58,7 @@ app.put('/modificar-pedido/:id', async (req, res) => {
         const { nombre, fecha, hora, direccion, orden } = req.body;
 
         const query = `
-            UPDATE ordenes
+            UPDATE pedidos
             SET cliente = $1, orden = $2, fecha = $3, hora = $4, direccion = $5
             WHERE "ID" = $6
         `;
@@ -82,7 +82,7 @@ app.delete("/eliminar-pedido/:id", async (req, res) => {
         const id = req.params.id;
 
         const query = `
-            DELETE FROM ordenes
+            DELETE FROM pedidos
             WHERE "ID" = $1
         `;
 
@@ -111,9 +111,4 @@ app.get('/api/pedidos', async (req, res) => {
     }
 });
 
-// =========================
-//   LEVANTAR SERVIDOR
-// =========================
-app.listen(3000, () => {
-    console.log("Servidor corriendo en http://localhost:3000");
-});
+

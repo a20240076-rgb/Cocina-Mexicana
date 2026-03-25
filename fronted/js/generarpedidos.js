@@ -22,7 +22,7 @@ document.getElementById("btnGuardar").addEventListener("click", () => {
     // ------------------------------
     // 2. Guardar en la base de datos
     // ------------------------------
-    fetch("http://localhost:3000/guardar-pedido", {
+    fetch("https://cocina-mexicana.onrender.com/guardar-pedido", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(pedido)

@@ -8,7 +8,7 @@ async function mostrarPedidos() {
     const contenedor = document.getElementById("listaPedidos");
 
     try {
-        const respuesta = await fetch("http://localhost:3000/pedidos");
+        const respuesta = await fetch("https://cocina-mexicana.onrender.com/pedidos");
         const pedidos = await respuesta.json();
         currentPedidos = pedidos || [];
 
@@ -146,7 +146,7 @@ document.getElementById("formEditar").addEventListener("submit", async (e) => {
         // "id" no existe. La variable correcta es "ID".
 
         // ✅ CORREGIDO:
-        const resp = await fetch(`http://localhost:3000/modificar-pedido/${ID}`, {
+        const resp = await fetch(`https://cocina-mexicana.onrender.com/modificar-pedido/${ID}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -200,7 +200,7 @@ document.addEventListener("click", async (e) => {
         }
 
         try {
-            const resp = await fetch(`http://localhost:3000/eliminar-pedido/${id}`, {
+            const resp = await fetch(`https://cocina-mexicana.onrender.com/eliminar-pedido/${id}`, {
                 method: "DELETE"
             });
 
